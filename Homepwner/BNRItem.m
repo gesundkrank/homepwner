@@ -29,6 +29,16 @@
     return self;
 }
 
+- (NSString *)description
+{
+    NSString *descriptionString = [[NSString alloc] initWithFormat:@"%@ (%@): Worth $%d, recorded on %@",
+                                   _itemName,
+                                   _serialNumber,
+                                   _valueInDollars,
+                                   _dateCreated];
+    return descriptionString;
+}
+
 + (id)randomItem
 {
     NSArray *randomAdjectiveList = [NSArray arrayWithObjects:@"Flffy", @"Rusty", @"Shiny", nil];

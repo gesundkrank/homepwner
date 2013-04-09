@@ -93,9 +93,9 @@
 				3D910B2B17140C3600279CD8 /* HomepwnerAppDelegate.m */,
 				3D910B2217140C3600279CD8 /* Supporting Files */,
 				3D910B3B171411ED00279CD8 /* BNRItem.h */,
+				3D910B3C171411ED00279CD8 /* BNRItem.m */,
 				3D1D54D117141F9A00B9C418 /* BNRItemStore.h */,
 				3D1D54D217141F9A00B9C418 /* BNRItemStore.m */,
-				3D910B3C171411ED00279CD8 /* BNRItem.m */,
 			);
 			path = Homepwner;
 			sourceTree = "<group>";
