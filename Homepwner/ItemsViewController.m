@@ -18,9 +18,7 @@
     self = [super initWithStyle:UITableViewStyleGrouped];
     
     if(self){
-        for (int i = 0; i < 5; i++) {
-            [[BNRItemStore sharedStore] createItem];
-        }
+        
     }
     
     return self;
@@ -67,6 +65,27 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
     return [[self headerView] bounds].size.height;
+}
+
+- (IBAction)toggleEditingMode:(id)sender
+{
+    //If we are currently in editing mode...
+    if([self isEditing]){
+        [sender setTitle:@"Edit" forState:UIControlStateNormal];
+        [self setEditing:NO animated:YES];
+    }else{
+        [sender setTitle:@"Done" forState:UIControlStateNormal];
+        [self setEditing:YES animated:YES];
+    }
+}
+
+- (void)addNewItem:(id)sender{
+    BNRItem *newItem = [[BNRItemStore sharedStore] createItem];
+    
+    int lastRow = [[[BNRItemStore sharedStore] allItems] indexOfObject:newItem];
+    NSIndexPath *ip = [NSIndexPath indexPathForRow:lastRow inSection:0];
+    
+    [[self tableView] insertRowsAtIndexPaths:[NSArray arrayWithObject:ip] withRowAnimation:UITableViewRowAnimationTop];
 }
 
 @end

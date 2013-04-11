@@ -15,6 +15,6 @@
 
 - (UIView *)headerView;
 - (IBAction)addNewItem:(id)sender;
-- (IBAction)toggleEdit:(id)sender;
+- (IBAction)toggleEditingMode:(id)sender;
 
 @end
