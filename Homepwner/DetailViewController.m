@@ -8,6 +8,7 @@
 
 #import "DetailViewController.h"
 #import "BNRItem.h"
+#import "BNRImageStore.h"
 
 @interface DetailViewController ()
 
@@ -34,6 +35,17 @@
     [dateFormatter setTimeStyle:NSDateFormatterNoStyle];
     
     [dateLabel setText:[dateFormatter stringFromDate:[_item dateCreated]]];
+    
+    NSString *imageKey = [_item imageKey];
+    
+    if(imageKey){
+        //Get image for image key
+        UIImage *imageToDisplay = [[BNRImageStore sharedStore] imageForKey:imageKey];
+        [imageView setImage:imageToDisplay];
+    }
+    else{
+        [imageView setImage:nil];
+    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -69,14 +81,43 @@
     [self presentViewController:imagePicker animated:YES completion:nil];
 }
 
+- (IBAction)backgroundTapped:(id)sender {
+    [[self view] endEditing:YES];
+}
+
 - (void) imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
+    NSString *oldKey = [_item imageKey];
+    
+    if(oldKey){
+        [[BNRImageStore sharedStore] deleteImageForKey:oldKey];
+    }
+    
+    
     UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
+    
+    //Create a CFUUID object - it knows how to create unique id
+    CFUUIDRef newUniqueID = CFUUIDCreate(kCFAllocatorDefault);
+    CFStringRef newUniqueIDString = CFUUIDCreateString(kCFAllocatorDefault, newUniqueID);
+    
+    NSString *key = (__bridge NSString *) newUniqueIDString;
+    [_item setImageKey:key];
+    
+    [[BNRImageStore sharedStore] setImage:image forKey:[_item imageKey]];
+    
+    CFRelease(newUniqueIDString);
+    CFRelease(newUniqueID);
     
     [imageView setImage:image];
     
     //Take imagepicker of the screen
     [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    [textField resignFirstResponder];
+    return YES;
 }
 
 @end
