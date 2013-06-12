@@ -54,4 +54,29 @@
 }
 
 
+- (IBAction)takePicture:(id)sender{
+    UIImagePickerController *imagePicker =[[UIImagePickerController alloc] init];
+                              
+    //check if device owns a camera
+    if([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera])
+        [imagePicker setSourceType:UIImagePickerControllerSourceTypeCamera];
+    else
+        [imagePicker setSourceType:UIImagePickerControllerSourceTypePhotoLibrary];
+    
+    [imagePicker setDelegate:self];
+    
+    // Place image picker on the screen
+    [self presentViewController:imagePicker animated:YES completion:nil];
+}
+
+- (void) imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
+{
+    UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
+    
+    [imageView setImage:image];
+    
+    //Take imagepicker of the screen
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
 @end
