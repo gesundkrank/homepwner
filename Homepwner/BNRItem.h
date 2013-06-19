@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface BNRItem : NSObject
+@interface BNRItem : NSObject<NSCoding>
 
 @property(nonatomic) BNRItem *containedItem;
 @property(nonatomic) BNRItem *container;

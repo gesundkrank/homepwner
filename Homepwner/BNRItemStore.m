@@ -15,7 +15,11 @@
 {
     self = [super init];
     if(self){
-        allItems = [[NSMutableArray alloc] init];
+        NSString *path = [self itemsArchivePath];
+        allItems = [NSKeyedUnarchiver unarchiveObjectWithFile:path];
+        
+        if(!allItems)
+            allItems = [[NSMutableArray alloc] init];
     }
     return self;
 }
@@ -41,7 +45,7 @@
 
 - (BNRItem *)createItem
 {
-    BNRItem *p = [BNRItem randomItem];
+    BNRItem *p = [[BNRItem alloc] init];
     [allItems addObject:p];
     
     return p;
@@ -60,6 +64,22 @@
     [allItems removeObjectAtIndex:from];
     
     [allItems insertObject:p atIndex:to];
+}
+
+- (NSString *)itemsArchivePath
+{
+    NSArray *documentDirectories = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    
+    NSString *documentDirectory = [documentDirectories objectAtIndex:0];
+    
+    return [documentDirectory stringByAppendingPathComponent:@"items.archive"];
+}
+
+- (BOOL)saveChanges
+{
+    //returns success or failure
+    NSString *path = [self itemsArchivePath];
+    return [NSKeyedArchiver archiveRootObject:allItems toFile:path];
 }
 
 @end
