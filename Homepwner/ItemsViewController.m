@@ -9,6 +9,7 @@
 #import "ItemsViewController.h"
 #import "BNRItemStore.h"
 #import "BNRItem.h"
+#import "HomepwnerItemCell.h"
 
 @implementation ItemsViewController
 
@@ -45,6 +46,17 @@
     [[self tableView] reloadData];
 }
 
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    
+    //Load the NIB File
+    UINib *nib = [UINib nibWithNibName:@"HomepwnerItemCell" bundle:nil];
+    
+    //Register this NIB wihich contains the cell
+    [[self tableView] registerNib:nib forCellReuseIdentifier:@"HomepwnerItemCell"];
+}
+
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     return [[[BNRItemStore sharedStore] allItems] count];
@@ -52,15 +64,18 @@
 
 - (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // Check for reusable cell
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"UITableViewCell"];
     
-    if(!cell){
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"UITableViewCell"];
-    }
     BNRItem *p = [[[BNRItemStore sharedStore] allItems] objectAtIndex:[indexPath row]];
     
-    [[cell textLabel] setText:[p description]];
+    //Get the new or recycled cell
+    HomepwnerItemCell *cell = [tableView dequeueReusableCellWithIdentifier:@"HomepwnerItemCell"];
+    
+    //Configure cell with BNRItem
+    [[cell nameLabel] setText:[p itemName]];
+    [[cell serialNumberLabel] setText:[p serialNumber]];
+    [[cell valueLabel] setText:[NSString stringWithFormat:@"$%d", [p valueInDollars]]];
+    [[cell thumbnailView] setImage:[p thumbnail]];
+    
     
     return cell;
 }
