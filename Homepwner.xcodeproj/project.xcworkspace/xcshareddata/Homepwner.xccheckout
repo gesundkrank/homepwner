@@ -3,19 +3,19 @@
 <plist version="1.0">
 <dict>
 	<key>IDESourceControlProjectIdentifier</key>
-	<string>7ABCAAD6-29EB-4B29-BAD4-BEABB642B583</string>
+	<string>77704658-9B95-41CD-B348-1F09C66AF335</string>
 	<key>IDESourceControlProjectName</key>
 	<string>Homepwner</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-		<key>1D0D394B-37F1-425C-99AE-ED561470C36A</key>
+		<key>DD36E353-F319-4629-B513-D478D669194F</key>
 		<string>ssh://github.com/gesundkrank/homepwner.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
 	<string>Homepwner.xcodeproj/project.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>1D0D394B-37F1-425C-99AE-ED561470C36A</key>
+		<key>DD36E353-F319-4629-B513-D478D669194F</key>
 		<string>../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
@@ -23,16 +23,16 @@
 	<key>IDESourceControlProjectVersion</key>
 	<integer>110</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>1D0D394B-37F1-425C-99AE-ED561470C36A</string>
+	<string>DD36E353-F319-4629-B513-D478D669194F</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>1D0D394B-37F1-425C-99AE-ED561470C36A</string>
+			<string>DD36E353-F319-4629-B513-D478D669194F</string>
 			<key>IDESourceControlWCCName</key>
-			<string>Homepwner</string>
+			<string>homepwner</string>
 		</dict>
 	</array>
 </dict>

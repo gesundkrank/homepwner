@@ -18,11 +18,16 @@
 
 @property(nonatomic, copy) NSString *imageKey;
 
+@property(nonatomic, strong) UIImage *thumbnail;
+@property(nonatomic, strong) NSData *thumbnailData;
+
 
 -(id) init;
 -(id) initWithItemName:(NSString*) name
         valueInDollars:(int) value
           serialNumber:(NSString *) sNumber;
+- (void)setThumbnailDataFromImage:(UIImage *)image;
+
 
 +(id) randomItem;
 
