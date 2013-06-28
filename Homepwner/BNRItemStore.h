@@ -7,12 +7,16 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <CoreData/CoreData.h>
 
 @class BNRItem;
 
 @interface BNRItemStore : NSObject
 {
-    NSMutableArray *allItems;
+    NSMutableArray *_allItems;
+    NSMutableArray *_allAssetTypes;
+    NSManagedObjectContext *_context;
+    NSManagedObjectModel *_model;
 }
 
 +(BNRItemStore *) sharedStore;
@@ -23,5 +27,6 @@
 - (void) moveItemAtIndex: (int) from toIndex: (int) to;
 - (NSString *) itemsArchivePath;
 - (BOOL) saveChanges;
+- (void) loadAllItems;
 
 @end

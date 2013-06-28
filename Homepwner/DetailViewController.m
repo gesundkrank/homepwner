@@ -68,7 +68,9 @@
     [dateFormatter setDateStyle:NSDateFormatterMediumStyle];
     [dateFormatter setTimeStyle:NSDateFormatterNoStyle];
     
-    [dateLabel setText:[dateFormatter stringFromDate:[_item dateCreated]]];
+    //COnvert time interval to NSDate
+    NSDate *date =[NSDate dateWithTimeIntervalSinceReferenceDate:[_item dateCreated]];
+    [dateLabel setText:[dateFormatter stringFromDate:date]];
     
     NSString *imageKey = [_item imageKey];
     

@@ -2,76 +2,38 @@
 //  BNRItem.m
 //  Homepwner
 //
-//  Created by Jan Graßegger on 09.04.13.
+//  Created by Jan Graßegger on 27.06.13.
 //  Copyright (c) 2013 Jan Graßegger. All rights reserved.
 //
 
 #import "BNRItem.h"
 
+
 @implementation BNRItem
 
+@dynamic dateCreated;
+@dynamic imageKey;
+@dynamic itemName;
+@dynamic orderingValue;
+@dynamic serialNumber;
+@dynamic thumbnail;
+@dynamic thumbnailData;
+@dynamic valueInDollars;
+@dynamic assetType;
 
-- (id) init
+- (void)awakeFromFetch
 {
-    return [self initWithItemName:@"Item" valueInDollars:0 serialNumber:@""];
+    [super awakeFromFetch];
+    
+    UIImage *tn = [UIImage imageWithData:[self thumbnailData]];
+    [self setPrimitiveValue:tn forKey:@"thumbnail"];
 }
 
-- (id)initWithItemName:(NSString *)name valueInDollars:(int)value serialNumber:(NSString *)sNumber
+- (void)awakeFromInsert
 {
-    self = [super init];
-    if(self){
-        [self setItemName:name];
-        [self setSerialNumber:sNumber];
-        [self setValueInDollars:value];
-        _dateCreated = [[NSDate alloc] init];
-    }
-    
-    return self;
-}
-
-- (id)initWithCoder:(NSCoder *)aDecoder
-{
-    self = [super init];
-    if(self)
-    {
-        [self setItemName:[aDecoder decodeObjectForKey:@"itemName"]];
-        [self setSerialNumber:[aDecoder decodeObjectForKey:@"serialNumber"]];
-        [self setImageKey:[aDecoder decodeObjectForKey:@"imageKey"]];
-        
-        [self setValueInDollars:[aDecoder decodeIntForKey:@"valueInDollars"]];
-        
-        _dateCreated = [aDecoder decodeObjectForKey:@"dateCreated"];
-        
-        _thumbnailData = [aDecoder decodeObjectForKey:@"thumbnailData"];
-    }
-    
-    return self;
-}
-
-- (NSString *)description
-{
-    NSString *descriptionString = [[NSString alloc] initWithFormat:@"%@ (%@): Worth $%d, recorded on %@",
-                                   _itemName,
-                                   _serialNumber,
-                                   _valueInDollars,
-                                   _dateCreated];
-    return descriptionString;
-}
-
-- (UIImage *)thumbnail
-{
-    //If there is no thumbnailData it cannot be returned
-    if(!_thumbnailData){
-        return nil;
-    }
-    
-    // If I have not yet created my thumbnail image from my data, do so now
-    if(!_thumbnail){
-        //Create image from data
-        _thumbnail = [UIImage imageWithData:_thumbnailData];
-    }
-    
-    return _thumbnail;
+    [super awakeFromInsert];
+    NSTimeInterval t = [[NSDate date] timeIntervalSinceReferenceDate];
+    [self setDateCreated:t];
 }
 
 - (void)setThumbnailDataFromImage:(UIImage *)image
@@ -114,39 +76,5 @@
     UIGraphicsEndImageContext();
 }
 
-- (void)encodeWithCoder:(NSCoder *)aCoder
-{
-    [aCoder encodeObject:_itemName forKey:@"itemName"];
-    [aCoder encodeObject:_serialNumber forKey:@"serialNumber"];
-    [aCoder encodeObject:_dateCreated forKey:@"dateCreated"];
-    [aCoder encodeObject:_imageKey forKey:@"imageKey"];
-    [aCoder encodeObject:_thumbnailData forKey:@"thumbnailData"];
-    
-    [aCoder encodeInt:_valueInDollars forKey:@"valueInDollars"];
-   
-}
-
-+ (id)randomItem
-{
-    NSArray *randomAdjectiveList = [NSArray arrayWithObjects:@"Flffy", @"Rusty", @"Shiny", nil];
-    NSArray *randomNounList = [NSArray arrayWithObjects:@"Bear", @"Spork", @"Mac", nil];
-    
-    NSInteger adjectiveIndex = rand() % [randomAdjectiveList count];
-    NSInteger nounIndex = rand() % [randomNounList count];
-    
-    NSString *randomName = [NSString stringWithFormat:@"%@ %@",
-                            [randomAdjectiveList objectAtIndex:adjectiveIndex],
-                            [randomNounList objectAtIndex:nounIndex]];
-    int randomValue = rand() % 100;
-    
-    NSString *randomSerialNumber = [NSString stringWithFormat:@"%c%c%c%c%c",
-                                    '0' + rand() % 10,
-                                    'A' + rand() % 26,
-                                    '0' + rand() % 26,
-                                    'A' + rand() % 26,
-                                    '0' + rand() % 10];
-    BNRItem *newItem = [[self alloc] initWithItemName:randomName valueInDollars:randomValue serialNumber:randomSerialNumber];
-    return newItem;
-}
 
 @end
