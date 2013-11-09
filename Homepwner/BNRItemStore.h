@@ -28,5 +28,6 @@
 - (NSString *) itemsArchivePath;
 - (BOOL) saveChanges;
 - (void) loadAllItems;
+- (NSArray *) allAssetTypes;
 
 @end

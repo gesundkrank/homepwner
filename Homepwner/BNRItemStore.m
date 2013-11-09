@@ -83,7 +83,7 @@
 {
     NSString *key = [p imageKey];
     [[BNRImageStore sharedStore] deleteImageForKey:key];
-    [_context delete:p];
+    [_context deleteObject:p];
     [_allItems removeObjectIdenticalTo:p];
 }
 
@@ -154,6 +154,45 @@
         
         _allItems = [[NSMutableArray alloc] initWithArray:result];
     }
+}
+
+- (NSArray *) allAssetTypes
+{
+    if(!_allAssetTypes){
+        NSFetchRequest *request = [[NSFetchRequest alloc] init];
+        
+        NSEntityDescription *e = [[_model entitiesByName] objectForKey:@"BNRAssetType"];
+        
+        [request setEntity:e];
+        
+        NSError *error;
+        NSArray *result = [_context executeFetchRequest:request error: &error];
+        
+        if(!result){
+            [NSException raise:@"Fetch failed" format:@"Reason: %@", [error localizedDescription]];
+        }
+        
+        _allAssetTypes = [result mutableCopy];
+    }
+    
+    //Is this the first time the program is running?
+    if([_allAssetTypes count] == 0){
+        NSManagedObject *type;
+        
+        type = [NSEntityDescription insertNewObjectForEntityForName:@"BNRAssetType" inManagedObjectContext:_context];
+        [type setValue:@"Furniture" forKey:@"label"];
+        [_allAssetTypes addObject:type];
+        
+        type = [NSEntityDescription insertNewObjectForEntityForName:@"BNRAssetType" inManagedObjectContext:_context];
+        [type setValue:@"Jewelry" forKey:@"label"];
+        [_allAssetTypes addObject:type];
+        
+        type = [NSEntityDescription insertNewObjectForEntityForName:@"BNRAssetType" inManagedObjectContext:_context];
+        [type setValue:@"Electronics" forKey:@"label"];
+        [_allAssetTypes addObject:type];
+    }
+    
+    return _allAssetTypes;
 }
 
 @end

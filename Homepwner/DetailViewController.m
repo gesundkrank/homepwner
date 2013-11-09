@@ -10,6 +10,7 @@
 #import "BNRItem.h"
 #import "BNRImageStore.h"
 #import "BNRItemStore.h"
+#import "AssetTypePicker.h"
 
 @interface DetailViewController ()
 
@@ -82,6 +83,11 @@
     else{
         [imageView setImage:nil];
     }
+    
+    NSString *typeLabel = [[_item assetType] valueForKey:@"label"];
+    if(!typeLabel) typeLabel = @"None";
+    
+    [assetTypeButton setTitle:[NSString stringWithFormat:@"Type %@", typeLabel] forState:UIControlStateNormal];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -201,5 +207,15 @@
     [[BNRItemStore sharedStore] removeItem:_item];
     
     [[self presentingViewController] dismissViewControllerAnimated:YES completion:_dismissBlock];
+}
+
+- (void)showAssetTypePicker:(id)sender
+{
+    [[self view] endEditing:YES];
+    
+    AssetTypePicker *assetTypePicker = [[AssetTypePicker alloc] init];
+    [assetTypePicker setItem:_item];
+    
+    [[self navigationController] pushViewController:assetTypePicker animated:YES];
 }
 @end
