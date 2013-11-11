@@ -157,8 +157,6 @@
         [imagePopover setDelegate:self];
         [imagePopover setPopoverContentSize:CGSizeMake(600, 600)];
         [imagePopover presentPopoverFromRect:rect inView:[self view] permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
-        
-        
     }
 }
 

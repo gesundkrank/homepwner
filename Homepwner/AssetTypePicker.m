@@ -64,7 +64,20 @@
     NSManagedObject *assetType = [allAssets objectAtIndex:[indexPath row]];
     [_item setAssetType:assetType];
     
-    [[self navigationController] popViewControllerAnimated:YES];
+    if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
+        [_assetTypePopoverController dismissPopoverAnimated:YES];
+        //[self dismissViewControllerAnimated:YES completion:_dismissBlock];
+        //[[self presentingViewController] dismissViewControllerAnimated:YES completion:_dismissBlock];
+        _dismissBlock();
+    }else{
+        [[self navigationController] popViewControllerAnimated:YES];
+    }
+}
+
+
+- (void)popoverControllerDidDismissPopover:(UIPopoverController *)popoverController{
+    NSLog(@"User dismissed popover");
+    _assetTypePopoverController = nil;
 }
 
 @end

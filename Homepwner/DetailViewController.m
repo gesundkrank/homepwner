@@ -216,6 +216,21 @@
     AssetTypePicker *assetTypePicker = [[AssetTypePicker alloc] init];
     [assetTypePicker setItem:_item];
     
-    [[self navigationController] pushViewController:assetTypePicker animated:YES];
+    if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
+        // Create new popover controller
+        UIPopoverController *assetTypePickerPopover = [[UIPopoverController alloc] initWithContentViewController:assetTypePicker];
+        [assetTypePicker setAssetTypePopoverController: assetTypePickerPopover];
+        [assetTypePickerPopover setDelegate:assetTypePicker];
+        [assetTypePicker setDismissBlock:^{
+            NSString *typeLabel = [[_item assetType] valueForKey:@"label"];
+           [assetTypeButton setTitle:[NSString stringWithFormat:@"Type %@", typeLabel] forState:UIControlStateNormal];
+            }];
+        
+        //Display the popover controller
+        UIButton *button = (UIButton*)sender;
+        [assetTypePickerPopover presentPopoverFromRect:[button frame] inView:[self view]permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+    }else{
+        [[self navigationController] pushViewController:assetTypePicker animated:YES];
+    }
 }
 @end
